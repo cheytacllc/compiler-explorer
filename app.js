@@ -79,6 +79,7 @@ if (opts.debug) logger.level = 'debug';
 // of process.env is allowed: https://nodejs.org/api/process.html#process_process_env
 if (process.platform === 'linux' && child_process.execSync('uname -a').toString().includes('Microsoft')) {
     process.env.wsl = true;
+    logger.info('yeah true bitch');
 }
 
 // AP: Allow setting of tmpDir (used in lib/base-compiler.js & lib/exec.js) through opts.
@@ -87,6 +88,7 @@ if (process.platform === 'linux' && child_process.execSync('uname -a').toString(
 if (opts.tmpDir) {
     process.env.tmpDir = opts.tmpDir;
     process.env.winTmp = opts.tmpDir;
+    logger.info(opts.tmpDir);
 } else if (process.env.wsl) {
     // Dec 2017 preview builds of WSL include /bin/wslpath; do the parsing work for now.
     // Parsing example %TEMP% is C:\Users\apardoe\AppData\Local\Temp
@@ -94,6 +96,7 @@ if (opts.tmpDir) {
     const driveLetter = windowsTemp.substring(0, 1).toLowerCase();
     const directoryPath = windowsTemp.substring(2).trim();
     process.env.winTmp = path.join('/mnt', driveLetter, directoryPath);
+    logger.info(process.env.winTmp);
 }
 
 const distPath = path.resolve(__dirname, 'out', 'dist');
@@ -365,6 +368,8 @@ function startListening(server) {
     logger.info(`  Startup duration: ${new Date() - startTime}ms`);
     logger.info('=======================================');
     server.listen(_port, defArgs.hostname);
+    child_process.execSync('powershell.exe start http://localhost:5000');
+    child_process.execSync('powershell.exe start http://localhost:10240');
 }
 
 function setupSentry(sentryDsn) {

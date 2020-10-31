@@ -545,7 +545,7 @@ Editor.prototype.updateOpenInCppInsights = function () {
         }
     }, this));
 
-    var link = 'https://cppinsights.io/lnk?code=' + this.b64UTFEncode(this.getSource()) + '&std=' + cppStd + '&rev=1.0';
+    var link = 'http://localhost:5000/lnk?code=' + this.b64UTFEncode(this.getSource()) + '&std=' + cppStd + '&rev=1.0';
 
     this.domRoot.find('.open-in-cppinsights').attr('href', link);
 };
